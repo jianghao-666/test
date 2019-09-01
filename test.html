@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-3.4.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<style>
+		div{
+			width:100px;height:100px;background-color:red;
+		}
+	</style>
+	<div onClick="promiseClick();">开始异步请求</div>
+	<script>
+// 		new Promise(
+//   function (resolve, reject) {
+//     // 一段耗时的异步操作
+//     resolve('111') // 数据处理完成
+//     // reject('失败') // 数据处理出错
+//   }
+// ).then(
+//   (res) => {console.log(res)},  // 成功
+//   (err) => {console.log(err)} // 失败
+// )
+		// var a = 1;
+		// -function(s){
+		// 	var a = 2;
+		// 	console.log("立即执行函数" + s + a);
+		// }(6);
+		// console.log("立即执行函数" + a);
+function promiseClick(){
+		let p = new Promise(function(resolve, reject){
+			setTimeout(function(){
+				var num = Math.ceil(Math.random()*20); //生成1-10的随机数
+				console.log('随机数生成的值：',num)
+				if(num<=10){
+					resolve(num);
+				}
+				else{
+					reject('数字太于10了即将执行失败回调');
+				}
+			}, 2000);
+		   })
+		   return p
+	   }
+ 
+	promiseClick().then(
+		function(data){
+			console.log('resolved成功回调');
+			console.log('成功回调接受的值：',data);
+		}, 
+		function(reason, data){
+			console.log('rejected失败回调');
+			console.log('失败执行回调抛出失败原因：',reason);
+		}
+	)
+	.catch(function(reason, data){
+		console.log('catch到rejected失败回调');
+		console.log('catch失败执行回调抛出失败原因：',reason);
+	});
+	</script>
+</body>
+</html>
